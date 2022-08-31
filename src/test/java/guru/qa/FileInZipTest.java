@@ -38,7 +38,7 @@ public class FileInZipTest {
         ZipEntry entry;
         while ((entry = zis.getNextEntry()) != null) {
             if (entry.getName().equals(csvFileName)) {
-                try(InputStream stream = zipFile.getInputStream(entry)) {
+                try (InputStream stream = zipFile.getInputStream(entry)) {
                     CSVReader reader = new CSVReader(new InputStreamReader(zis, StandardCharsets.UTF_8));
                     List<String[]> csv = reader.readAll();
                     assertThat(csv).contains(
@@ -47,14 +47,14 @@ public class FileInZipTest {
                             new String[]{"Peugeot", "508", "Франция"}
                     );
                 }
-                }
             }
         }
+    }
 
 
     @DisplayName("Проверка файла exampleXlsx.xlsx в архиве resources.zip")
     @Test
-    void XlsxZipTest() throws Exception {
+    void xlsxZipTest() throws Exception {
         InputStream is = classLoader.getResourceAsStream(zipName);
         ZipInputStream zip = new ZipInputStream(is);
         ZipEntry entry;
@@ -71,6 +71,7 @@ public class FileInZipTest {
             }
         }
     }
+
     @DisplayName("Проверка файла examplePdf.pdf в архиве resources.zip")
     @Test
     void pdfZipTest() throws Exception {
@@ -82,7 +83,7 @@ public class FileInZipTest {
             if (entry.getName().contains(pdfFileName)) {
                 try (InputStream stream = zipFile.getInputStream(entry)) {
                     PDF pdf = new PDF(stream);
-                    assertThat(pdf.text).contains("ПримерPDF файла");
+                    assertThat(pdf.text).contains("Пример PDF файла");
                 }
             }
         }
@@ -97,10 +98,5 @@ public class FileInZipTest {
         assertThat(soccerPlayer.getFirstName().equals("Lev"));
         assertThat(soccerPlayer.getLastName()).isEqualTo("Yashin");
         assertThat(soccerPlayer.isBestPlayer()).isEqualTo(true);
-
-
-
-
-
     }
 }
